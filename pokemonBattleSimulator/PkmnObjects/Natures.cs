@@ -1,0 +1,31 @@
+﻿namespace pokemonBattleSimulator.PkmnObjects
+{
+  public enum Nature
+  {
+    Hardy,
+    Lonely,
+    Adamant,
+    Naughty,
+    Brave,
+    Bold,
+    Docile,
+    Impish,
+    Lax,
+    Relaxed,
+    Modest,
+    Mild,
+    Bashful,
+    Rash,
+    Queit,
+    Calm,
+    Gentle,
+    Careful,
+    Quirky,
+    Sassy,
+    Timid,
+    Hasty,
+    Jolly,
+    Naive,
+    Serious
+  }
+}
