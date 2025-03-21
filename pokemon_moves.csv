@@ -1,0 +1,164 @@
+Move,Damage,Accuracy,MoveType,MoveTyping
+Absorb,20,100,Special,Grass
+Acid,40,100,Special,Poison
+Acid Armor,,,Status,Poison
+Agility,,,Status,Psychic
+Amnesia,,,Status,Psychic
+Aurora Beam,65,100,Special,Ice
+Barrier,,,Status,Psychic
+Bide,,,100,Physical,Normal
+Bind,15,85,Physical,Normal
+Bite,60,100,Physical,Normal
+Blizzard,110,70,Special,Ice
+Body Slam,85,100,Physical,Normal
+Bone Club,65,85,Physical,Ground
+Bonemerang,50,90,Physical,Ground
+Bubble,40,100,Special,Water
+Bubble Beam,65,100,Special,Water
+Clamp,35,85,Physical,Water
+Comet Punch,18,85,Physical,Normal
+Confuse Ray,,,Status,Ghost
+Confusion,50,100,Special,Psychic
+Constrict,10,100,Physical,Normal
+Conversion,,,Status,Normal
+Counter,1,100,Physical,Fighting
+Crabhammer,100,90,Special,Water
+Cut,50,95,Physical,Normal
+Defense Curl,,,Status,Normal
+Dig,80,100,Physical,Ground
+Disable,,,Status,Normal
+Dizzy Punch,70,100,Physical,Normal
+Double Kick,30,100,Physical,Fighting
+Double Team,,,Status,Normal
+Double-Edge,120,100,Physical,Normal
+Double Slap,15,85,Physical,Normal
+Dragon Rage,*,100,Special,Dragon
+Dream Eater,100,100,Special,Psychic
+Drill Peck,80,100,Physical,Flying
+Earthquake,100,100,Physical,Ground
+Egg Bomb,100,75,Physical,Normal
+Ember,40,100,Special,Fire
+Explosion,250,100,Physical,Normal
+Fire Blast,110,85,Special,Fire
+Fire Punch,75,100,Special,Fire
+Fire Spin,35,85,Special,Fire
+Fissure,*,30,Physical,Ground
+Flamethrower,90,100,Special,Fire
+Flash,,,Status,Normal
+Fly,90,95,Physical,Flying
+Focus Energy,,,Status,Normal
+Fury Attack,15,85,Physical,Normal
+Fury Swipes,18,80,Physical,Normal
+Glare,,,Status,Normal
+Growl,,,Status,Normal
+Growth,,,Status,Normal
+Guillotine,*,30,Physical,Normal
+Gust,40,100,Special,Flying
+Harden,,,Status,Normal
+Haze,,,Status,Ice
+Headbutt,70,100,Physical,Normal
+High Jump Kick,130,90,Physical,Fighting
+Horn Attack,65,100,Physical,Normal
+Horn Drill,*,30,Physical,Normal
+Hydro Pump,110,80,Special,Water
+Hyper Beam,150,90,Physical,Normal
+Hyper Fang,80,90,Physical,Normal
+Hypnosis,,,Status,Psychic
+Ice Beam,90,100,Special,Ice
+Ice Punch,75,100,Special,Ice
+Jump Kick,100,95,Physical,Fighting
+Karate Chop,50,100,Physical,Normal
+Kinesis,,,Status,Psychic
+Leech Life,20,100,Physical,Bug
+Leech Seed,,,Status,Grass
+Leer,,,Status,Normal
+Lick,30,100,Physical,Ghost
+Light Screen,,,Status,Psychic
+Lovely Kiss,,,Status,Normal
+Low Kick,*,100,Physical,Fighting
+Meditate,,,Status,Normal
+Mega Drain,40,100,Special,Grass
+Mega Kick,120,75,Physical,Normal
+Mega Punch,80,85,Physical,Normal
+Metronome,,,Status,Normal
+Mimic,,,Status,Normal
+Minimize,,,Status,Normal
+Mirror Move,,,Status,Flying
+Mist,,,Status,Ice
+Night Shade,*,100,Special,Ghost
+Pay Day,40,100,Physical,Normal
+Peck,35,100,Physical,Flying
+Petal Dance,120,100,Special,Grass
+Pin Missile,25,95,Physical,Bug
+Poison Gas,,,Status,Poison
+Poison Powder,,,Status,Poison
+Poison Sting,15,100,Physical,Poison
+Pound,40,100,Physical,Normal
+Psybeam,65,100,Special,Psychic
+Psychic,90,100,Special,Psychic
+Psywave,*,80,Special,Psychic
+Quick Attack,40,100,Physical,Normal
+Rage,20,100,Physical,Normal
+Razor Leaf,55,95,Special,Grass
+Razor Wind,80,100,Special,Normal
+Recover,,,Status,Normal
+Reflect,,,Status,Psychic
+Rest,,,Status,Normal
+Roar,,,Status,Normal
+Rock Slide,75,90,Physical,Rock
+Rock Throw,50,90,Physical,Rock
+Rolling Kick,60,85,Physical,Fighting
+Sand Attack,,,Status,Ground
+Scratch,40,100,Physical,Normal
+Screech,,,Status,Normal
+Seismic Toss,*,100,Physical,Fighting
+Self-Destruct,200,100,Physical,Normal
+Sharpen,,,Status,Normal
+Sing,,,Status,Normal
+Skull Bash,130,100,Physical,Normal
+Sky Attack,140,90,Physical,Flying
+Slam,80,75,Physical,Normal
+Slash,70,100,Physical,Normal
+Sleep Powder,,,Status,Grass
+Sludge,65,100,Special,Poison
+Smog,30,70,Special,Poison
+Smokescreen,,,Status,Normal
+Soft-Boiled,,,Status,Normal
+SolarBeam,120,100,Special,Grass
+Sonic Boom,*,90,Special,Normal
+Spike Cannon,20,100,Physical,Normal
+Splash,,,Status,Normal
+Spore,,,Status,Grass
+Stomp,65,100,Physical,Normal
+Strength,80,100,Physical,Normal
+String Shot,,,Status,Bug
+Struggle,50,100,Physical,Normal
+Stun Spore,,,Status,Grass
+Submission,80,80,Physical,Fighting
+Substitute,,,Status,Normal
+Super Fang,*,90,Physical,Normal
+Supersonic,,,Status,Normal
+Surf,90,100,Special,Water
+Swift,60,*,Special,Normal
+Swords Dance,,,Status,Normal
+Tackle,40,100,Physical,Normal
+Tail Whip,,,Status,Normal
+Take Down,90,85,Physical,Normal
+Teleport,,,Status,Psychic
+Thunder,110,70,Special,Electric
+Thunder Punch,75,100,Special,Electric
+Thunder Wave,,,Status,Electric
+Thunderbolt,90,100,Special,Electric
+ThunderShock,40,100,Special,Electric
+Toxic,,,Status,Poison
+Transform,,,Status,Normal
+Tri Attack,80,100,Special,Normal
+Twineedle,25,100,Physical,Bug
+Vice Grip,55,100,Physical,Normal
+Vine Whip,45,100,Special,Grass
+Water Gun,40,100,Special,Water
+Waterfall,80,100,Physical,Water
+Whirlwind,,,Status,Normal
+Wing Attack,60,100,Physical,Flying
+Withdraw,,,Status,Water
+Wrap,15,85,Physical,Normal
