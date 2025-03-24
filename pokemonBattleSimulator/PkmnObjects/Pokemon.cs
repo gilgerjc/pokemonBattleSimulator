@@ -7,14 +7,16 @@
     public readonly int[] _BaseStats;
     public readonly int[] _IVs;
     public readonly int[] _EVs;
-    public readonly Nature _Nature;
-    public readonly Ability _Ability;
-    public readonly PkmnType _Type1;
-    public readonly PkmnType _Type2;
 
-    public int[] _Stats = new int[6];
+    public Nature _Nature;
+    public Ability _Ability;
+    public PkmnType _Type1;
+    public PkmnType _Type2;
+    public Items _Item;
 
-    public Pokemon(string name, int level, int[] IVs, int[] EVs, Nature Nature, Ability ability)
+    public int[] _Stats = new int[6];  // HP - ATT - DEF - Sp. ATT - Sp. DEF - SPD
+
+    public Pokemon(string name, int level, int[] IVs, int[] EVs, Nature Nature, Ability ability, Items item)
     {
       _Name = name;
       _Level = level;
@@ -23,8 +25,10 @@
       _Nature = Nature;
       _BaseStats = GetBaseStatsFromCsv();
       (_Type1, _Type2) = GetTypingFromCsv();
-      CalculateStats();
       _Ability = ability;
+      _Item = item;
+
+      CalculateStats();
     }
 
     /// <summary>
@@ -130,7 +134,7 @@
     /// </summary>
     private void CalculateStats()
     {
-      float natureMultiplier = 1;
+      double natureMultiplier = 1;
       (int lower, int raise) = GetNatureIndices(_Nature);
 
       // HP calc
@@ -139,8 +143,8 @@
       for (int i = 1; i < _Stats.Count(); i++)
       {
         //increase/decrease multiplier depending on nature
-        if (i == raise) { natureMultiplier = 1.1F; }
-        if (i == lower) { natureMultiplier = 0.9F; }
+        if (i == raise) { natureMultiplier = 1.1; }
+        if (i == lower) { natureMultiplier = 0.9; }
 
         _Stats[i] = (int)(((2 * _BaseStats[i] + _IVs[i] + _EVs[i] / 4) * _Level / 100 + 5) * natureMultiplier);
 

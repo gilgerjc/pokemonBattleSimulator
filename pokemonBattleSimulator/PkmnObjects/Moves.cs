@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using System.Runtime.InteropServices;
 
 namespace pokemonBattleSimulator.PkmnObjects
 {
@@ -179,24 +180,31 @@ namespace pokemonBattleSimulator.PkmnObjects
 
   public class Move
   {
-    public readonly string _Name;
     public readonly MoveType _MoveType;
     public readonly int _BasePower;
     public readonly int _Accuracy;
     public readonly PkmnType _Typing;
     public readonly int _MaxPP;
+    public readonly Moves _Move;
+    public Action _MoveAction;
 
     public int _currPP;
 
-    public Move(string name, int basePower, int accuracy, MoveType moveType, PkmnType typing, int maxPP)
+    public bool _IsMultitarget;
+
+    public Move(Moves move, int basePower, int accuracy, MoveType moveType, PkmnType typing, int maxPP)
     {
-      this._Name = name;
+      this._Move = move;
       this._BasePower = basePower;
       this._Accuracy = accuracy;
       this._MoveType = moveType;
       this._Typing = typing;
       this._MaxPP = maxPP;
       this._currPP = this._MaxPP;
+      this._MoveAction = MoveFunctions.moveDictionary[move];
+
+      // flags
+      this._IsMultitarget = false;
     }
   }
   public static class MoveFunctions
@@ -217,6 +225,45 @@ namespace pokemonBattleSimulator.PkmnObjects
           }
         }
       }
+    }
+
+    public static int DamageRoll(Pokemon User, Pokemon Target, Move move, double multiplier = 1.0) // 1 by default, can be modified
+    {
+      int att = 0;
+      int def = 0;
+      if (move._MoveType == MoveType.Physical) { att = User._Stats[1]; def = Target._Stats[3]; } // set physical
+      else if (move._MoveType == MoveType.Special) { att = User._Stats[1]; def = Target._Stats[3]; } // set special
+      else { multiplier = 0; }
+
+      // Multitarget
+      if (move._IsMultitarget) { multiplier *= .75; }
+
+      // Weather - TODO
+
+      Random rnd = new Random();
+
+      // Crit
+      if (rnd.Next(16) == 15) { multiplier *= 1.5; } // TODO - ignore attack debuffs for crit
+
+      // Roll
+      multiplier *= rnd.Next(85, 101) / 100.0;
+
+      // STAB
+      if (move._Typing == User._Type1 || move._Typing == User._Type2) { multiplier *= 1.5; }
+
+      // Type effectiveness
+      if (Target._Type1 != PkmnType.None)
+      {
+        multiplier *= TypeEffectiveness.Chart[(int) move._Typing, (int)Target._Type1];
+      }
+      if (Target._Type2 != PkmnType.None)
+      {
+        multiplier *= TypeEffectiveness.Chart[(int)move._Typing, (int)Target._Type2];
+      }
+
+      int damageRoll = (int)(((((((2 * User._Level) / 5) + 2) * move._BasePower * (att/def)) / 50) + 2) * multiplier);
+
+      return damageRoll;
     }
 
     public static void Absorb(Pokemon User, Pokemon Target)
