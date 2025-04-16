@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 namespace pokemonBattleSimulator.PkmnObjects
@@ -186,11 +187,15 @@ namespace pokemonBattleSimulator.PkmnObjects
     public readonly PkmnType _Typing;
     public readonly int _MaxPP;
     public readonly Moves _Move;
+    public readonly int _Priority;
     public Action _MoveAction;
 
     public int _currPP;
 
+
     public bool _IsMultitarget;
+
+    public Random _Random = new Random();
 
     public Move(Moves move, int basePower, int accuracy, MoveType moveType, PkmnType typing, int maxPP)
     {
@@ -227,26 +232,47 @@ namespace pokemonBattleSimulator.PkmnObjects
       }
     }
 
-    public static int DamageRoll(Pokemon User, Pokemon Target, Move move, double multiplier = 1.0) // 1 by default, can be modified
+    public static int DamageRoll(Pokemon User, Pokemon Target, Move move, bool crit = false)
     {
       int att = 0;
       int def = 0;
-      if (move._MoveType == MoveType.Physical) { att = User._Stats[1]; def = Target._Stats[3]; } // set physical
-      else if (move._MoveType == MoveType.Special) { att = User._Stats[1]; def = Target._Stats[3]; } // set special
-      else { multiplier = 0; }
+      double multiplier = 1.0;
+
+      Func<int, double> GetStatChangeMultiplier = x => (x > 0) ? (2 + x) / 2.0 : 2 / (2 - x);
+
+      // Get att/def
+
+      if (move._MoveType == MoveType.Physical)
+      {
+        att = User._Stats[Stat.Att]; def = Target._Stats[Stat.Def];// set physical
+        
+        multiplier *= GetStatChangeMultiplier(User._StatChanges[Stat.Att]);
+        multiplier *= GetStatChangeMultiplier(User._StatChanges[Stat.Def]);
+      }
+      else if (move._MoveType == MoveType.Special)
+      {
+        att = User._Stats[Stat.SpAtt]; def = Target._Stats[Stat.SpDef]; // set special
+
+        multiplier *= GetStatChangeMultiplier(User._StatChanges[Stat.SpAtt]);
+        multiplier *= GetStatChangeMultiplier(User._StatChanges[Stat.SpDef]);
+      }
+      else { multiplier = 0; } // status moves
+
+      // Crit
+      if (crit)
+      {
+        multiplier = 1; // ignore stat changes, reset multiplier
+        if (move._Random.Next(16) == 15) { multiplier *= 1.5; }
+      }
 
       // Multitarget
       if (move._IsMultitarget) { multiplier *= .75; }
 
       // Weather - TODO
 
-      Random rnd = new Random();
-
-      // Crit
-      if (rnd.Next(16) == 15) { multiplier *= 1.5; } // TODO - ignore attack debuffs for crit
 
       // Roll
-      multiplier *= rnd.Next(85, 101) / 100.0;
+      multiplier *= move._Random.Next(85, 101) / 100.0;
 
       // STAB
       if (move._Typing == User._Type1 || move._Typing == User._Type2) { multiplier *= 1.5; }

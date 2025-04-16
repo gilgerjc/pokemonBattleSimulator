@@ -141,7 +141,7 @@ namespace pokemonBattleSimulator.PkmnObjects
       }
     }
 
-    #region"Move Functions"
+    #region"Item Functions"
     public static void  Berry(Pokemon Holder, Pokemon Target)
     {
 

@@ -4,29 +4,38 @@
   {
     public readonly string _Name;
     public readonly int _Level;
-    public readonly int[] _BaseStats;
-    public readonly int[] _IVs;
-    public readonly int[] _EVs;
+
+    public Stats _BaseStats = new Stats();
+    public Stats _IVs = new Stats();
+    public Stats _EVs = new Stats();
+    public Stats _Stats = new Stats();
+    public Stats _StatChanges = new Stats();
 
     public Nature _Nature;
     public Ability _Ability;
     public PkmnType _Type1;
     public PkmnType _Type2;
     public Items _Item;
+    public Status _Status;
+    public Moves[] _Moves;
 
-    public int[] _Stats = new int[6];  // HP - ATT - DEF - Sp. ATT - Sp. DEF - SPD
+    public bool _IsImmune = false;
+    public bool _IsSwitchingIn = false;
+    public bool _IsSwitchingOut = false;
 
-    public Pokemon(string name, int level, int[] IVs, int[] EVs, Nature Nature, Ability ability, Items item)
+    public Pokemon(string name, int level, Stats IVs, Nature Nature, Ability ability, Items item, Moves[] moves)
     {
       _Name = name;
       _Level = level;
       _IVs = IVs;
-      _EVs = EVs;
+      _EVs = new Stats(); // Always 0
       _Nature = Nature;
-      _BaseStats = GetBaseStatsFromCsv();
+      _BaseStats = new Stats(); GetBaseStatsFromCsv();
       (_Type1, _Type2) = GetTypingFromCsv();
       _Ability = ability;
       _Item = item;
+      _Status = Status.None;
+      _Moves = moves;
 
       CalculateStats();
     }
@@ -35,7 +44,7 @@
     /// Gets base stats for current pokemon from CSV
     /// </summary>
     /// <returns></returns>
-    private int[] GetBaseStatsFromCsv()
+    private void GetBaseStatsFromCsv()
     {
       string filePath = "pokemon_stats.csv"; // Change this to the path of your CSV file
       List<int[]> baseStatsList = new List<int[]>();
@@ -59,18 +68,18 @@
             {
               baseStats[i] = int.Parse(columns[i + 1]); // Base stats start from column 2
             }
-            return baseStats;
+            this._BaseStats.SetStats(baseStats);
           }
         }
 
         // If the Pokémon name was not found
         Console.WriteLine("Pokémon not found.");
-        return new int[6];
+        this._BaseStats.SetStats(new int[6]);
       }
       catch (Exception ex)
       {
         Console.WriteLine($"Error reading file: {ex.Message}");
-        return new int[6];
+        this._BaseStats.SetStats(new int[6]);
       }
     }
 
@@ -120,13 +129,14 @@
       }
     }
 
-    private static (int, int) GetNatureIndices(Nature nature)
+    private static (Stat, Stat) GetNatureIndices(Nature nature)
     {
       int lower; int raise;
       lower = (int)nature % 5;
       raise = (int)nature / 5;
-
-      return (lower, raise);
+      Stat lowerStat = (Stat)Enum.GetValues(typeof(Stat)).GetValue(lower);
+      Stat raiseStat = (Stat)Enum.GetValues(typeof(Stat)).GetValue(raise);
+      return (lowerStat, raiseStat);
     }
 
     /// <summary>
@@ -135,18 +145,18 @@
     private void CalculateStats()
     {
       double natureMultiplier = 1;
-      (int lower, int raise) = GetNatureIndices(_Nature);
+      (Stat lower, Stat raise) = GetNatureIndices(_Nature);
 
       // HP calc
-      _Stats[0] = (2 * _BaseStats[0] + _IVs[0] + _EVs[0] / 4) * _Level / 100 + _Level + 10;
+      _Stats[Stat.HP] = (2 * _BaseStats[Stat.HP] + _IVs[Stat.HP] + _EVs[Stat.HP] / 4) * _Level / 100 + _Level + 10;
 
-      for (int i = 1; i < _Stats.Count(); i++)
+      foreach (Stat stat in Enum.GetValues(typeof(Stat)))
       {
         //increase/decrease multiplier depending on nature
-        if (i == raise) { natureMultiplier = 1.1; }
-        if (i == lower) { natureMultiplier = 0.9; }
+        if (stat == raise) { natureMultiplier = 1.1; }
+        if (stat == lower) { natureMultiplier = 0.9; }
 
-        _Stats[i] = (int)(((2 * _BaseStats[i] + _IVs[i] + _EVs[i] / 4) * _Level / 100 + 5) * natureMultiplier);
+        _Stats[stat] = (int)(((2 * _BaseStats[stat] + _IVs[stat] + _EVs[stat] / 4) * _Level / 100 + 5) * natureMultiplier);
 
         // reset multiplier
         natureMultiplier = 1;
