@@ -1,13 +1,8 @@
 ﻿using pokemonBattleSimulator.PkmnObjects;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace pokemonBattleSimulator
 {
-  public static class DamageCalc
+  public static class Calc
   {
     // Your existing damage function
     public static int DamageRoll(Pokemon user, Pokemon target, Move move, bool crit = false)
@@ -35,7 +30,7 @@ namespace pokemonBattleSimulator
       if (crit)
       {
         multiplier = 1;
-        if (move._Random.Next(16) == 15) { multiplier *= 1.5; }
+        if (move._Random.Next(move._CritRate) == 0) { multiplier *= 1.5; }
       }
 
       if (move._IsMultitarget) { multiplier *= 0.75; }
@@ -80,13 +75,18 @@ namespace pokemonBattleSimulator
 
     public static bool IsHighestDamagingMove(Move moveToCheck, Pokemon user, Pokemon target, List<Move> movePool)
     {
-      int maxDamage = movePool
+      int maxDamage = user._Moves
           .Where(m => m._currPP > 0)
           .Max(m => DamageRoll(user, target, m));
 
       int moveDamage = DamageRoll(user, target, moveToCheck);
 
       return moveDamage == maxDamage;
+    }
+
+    internal static bool IsFaster(Pokemon aiMon, Pokemon playerMon, Field field)
+    {
+      throw new NotImplementedException();
     }
   }
 

@@ -17,13 +17,13 @@
     public PkmnType _Type2;
     public Items _Item;
     public Status _Status;
-    public Moves[] _Moves;
+    public Move[] _Moves;
 
     public bool _IsImmune = false;
     public bool _IsSwitchingIn = false;
     public bool _IsSwitchingOut = false;
 
-    public Pokemon(string name, int level, Stats IVs, Nature Nature, Ability ability, Items item, Moves[] moves)
+    public Pokemon(string name, int level, Stats IVs, Nature Nature, Ability ability, Items item, Move[] moves)
     {
       _Name = name;
       _Level = level;
@@ -153,8 +153,11 @@
       foreach (Stat stat in Enum.GetValues(typeof(Stat)))
       {
         //increase/decrease multiplier depending on nature
-        if (stat == raise) { natureMultiplier = 1.1; }
-        if (stat == lower) { natureMultiplier = 0.9; }
+        if (raise != lower)
+        {
+          if (stat == raise) { natureMultiplier = 1.1; }
+          if (stat == lower) { natureMultiplier = 0.9; }
+        }
 
         _Stats[stat] = (int)(((2 * _BaseStats[stat] + _IVs[stat] + _EVs[stat] / 4) * _Level / 100 + 5) * natureMultiplier);
 

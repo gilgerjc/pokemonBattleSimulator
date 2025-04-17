@@ -47,5 +47,22 @@
         {  1,      0.5,  1,   1,     1,     1,    1,   2,    1,   1,   1,    1,    1,   2,   1,   1,   0.5, 0.5}, // Dark
         {  1,      2,    1,   0.5,   1,     1,    1,   1,    0.5, 0.5, 1,    1,    1,   1,   1,   2,   2,   1  }  // Fairy
     };
+
+    public static double GetEffectiveness(Move move, Pokemon Target)
+    {
+      double effectiveness = 1.0;
+
+      int attIndex = Array.IndexOf(Enum.GetValues(typeof(PkmnType)), move._Typing);
+      int defIndex = Array.IndexOf(Enum.GetValues(typeof(PkmnType)), Target._Type1);
+
+      if (Target._Type1 != PkmnType.None) { effectiveness *= Chart[defIndex, attIndex]; }
+
+      defIndex = Array.IndexOf(Enum.GetValues(typeof(PkmnType)), Target._Type2); // check both types
+
+      if (Target._Type1 != PkmnType.None) { effectiveness *= Chart[defIndex, attIndex]; }
+
+
+      return effectiveness;
+    }
   }
 }

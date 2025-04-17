@@ -17,6 +17,7 @@ namespace pokemonBattleSimulator.PkmnObjects
   }
   public enum Items
   {
+    None,
     Berry,
     BitterBerry,
     BurntBerry,
@@ -118,7 +119,7 @@ namespace pokemonBattleSimulator.PkmnObjects
     PamtreBerry,
     RazzBerry,
     SpelonBerry,
-    WikiBerry,
+    WikiBerry
   }
 
   public static class ItemFunctions

@@ -279,6 +279,7 @@
     WonderGuard,
     WonderSkin,
     ZenMode,
-    None
+    None,
+    ChillingNeigh
   }
 }

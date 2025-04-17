@@ -1,13 +1,11 @@
 ﻿namespace pokemonBattleSimulator.PkmnObjects
 {
-  internal interface ITrainer
+  public interface ITrainer
   {
     public string _Name { get; set; }
     public Pokemon[] _Party { get; set;}
-    public Pokemon[] _EnemyParty { get; set; }
+    public Pokemon[] _ActivePkmn { get; set; }
 
-    public int _ActivePkmn { get; set; }
-
-    public static abstract Move ChoseMove();
+    public abstract Move ChoseMove(Pokemon playerMon, Field field);
   }
 }
