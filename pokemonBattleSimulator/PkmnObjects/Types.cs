@@ -1,4 +1,6 @@
-﻿namespace pokemonBattleSimulator.PkmnObjects
+﻿using pokemonBattleSimulator.PkmnObjects.PkmnMove;
+
+namespace pokemonBattleSimulator.PkmnObjects
 {
   public enum PkmnType
   {

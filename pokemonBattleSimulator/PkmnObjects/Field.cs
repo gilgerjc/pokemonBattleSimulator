@@ -1,15 +1,38 @@
-﻿namespace pokemonBattleSimulator.PkmnObjects
+﻿using pokemonBattleSimulator.PkmnObjects.Trainer;
+using System.Data;
+
+namespace pokemonBattleSimulator.PkmnObjects
 {
+  public enum Weather
+  {
+    None,
+    Sun,
+    Rain,
+    Sand,
+    Hail,
+    HarshSun,
+    HeavyRain,
+    StrongWinds
+  }
+
   public class Field
   {
 
     // trainers
-    public ITrainer _Player { get; set; }
-    public ITrainer _AI { get; set; }
+    public ITrainer _Player;
+    public ITrainer _AI;
 
 
     // double battle
     public bool _IsDoubleBattle { get; set; } = false;
+
+    // weather
+    public Weather _Weather { get; set; } = Weather.None;
+
+    // battle fields
+    public int _MagicRoom { get; set; } = 0;
+    public int _TrickRoom { get; set; } = 0;
+    public int _WonderRoom { get; set; } = 0;
 
     // switch-in damage
     public (bool, bool) _StealthRock { get; set; } = (false, false);

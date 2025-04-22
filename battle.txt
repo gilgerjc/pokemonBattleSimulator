@@ -1,0 +1,40 @@
+weather = rain
+=tailwind
+
+
+Youngster Joey:
+
+
+Magnezone @ Custap Berry
+Level: 34
+Quiet Nature
+Ability: Sturdy
+IVs: 30 HP / 30 SpA
+- Discharge
+- Flash Cannon
+- Explosion
+- Hidden Power Grass
+
+Eldegoss
+Level: 35
+Rash Nature
+Ability: Cotton Down
+IVs: 21 HP / 0 Def / 17 SpA / 27 SpD / 15 Spe
+- Leaf Tornado
+- Aromatherapy
+- Synthesis
+- Sing
+
+***
+
+Player:
+
+Centiskorch
+Level: 35
+Naive Nature
+Ability: Flame Body
+IVs: 23 Atk / 25 Def / 19 SpA / 29 SpD / 4 Spe
+- Fire Lash
+- Lunge
+- Flame Burst
+- Bug Bite

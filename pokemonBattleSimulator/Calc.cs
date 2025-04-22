@@ -1,4 +1,5 @@
 ﻿using pokemonBattleSimulator.PkmnObjects;
+using pokemonBattleSimulator.PkmnObjects.PkmnMove;
 
 namespace pokemonBattleSimulator
 {
@@ -75,9 +76,11 @@ namespace pokemonBattleSimulator
 
     public static bool IsHighestDamagingMove(Move moveToCheck, Pokemon user, Pokemon target, List<Move> movePool)
     {
-      int maxDamage = user._Moves
-          .Where(m => m._currPP > 0)
-          .Max(m => DamageRoll(user, target, m));
+      int maxDamage = (int)(user._Moves?
+          .Where(m => m != null && m._currPP > 0)
+          .Select(m => DamageRoll(user, target, m))
+          .DefaultIfEmpty(0) // fallback if no valid moves
+          .Max());
 
       int moveDamage = DamageRoll(user, target, moveToCheck);
 
@@ -86,7 +89,33 @@ namespace pokemonBattleSimulator
 
     internal static bool IsFaster(Pokemon aiMon, Pokemon playerMon, Field field)
     {
-      throw new NotImplementedException();
+      double aiSpeed = GetEffectiveSpeed(aiMon, field, isEnemy: true);
+      double playerSpeed = GetEffectiveSpeed(playerMon, field, isEnemy: false);
+
+      return aiSpeed > playerSpeed;
+    }
+
+    private static double GetEffectiveSpeed(Pokemon pkmn, Field field, bool isEnemy)
+    {
+      int baseSpeed = pkmn._Stats[Stat.Spd];
+      int stage = pkmn._StatChanges[Stat.Spd];
+
+      // Apply stat stage multiplier
+      double stageMultiplier = stage >= 0 ? (2.0 + stage) / 2.0 : 2.0 / (2.0 - stage);
+      double speed = baseSpeed * stageMultiplier;
+
+      // Apply status penalties (e.g., Paralysis cuts speed)
+      if (pkmn._Status == Status.Paralyzed)
+        speed *= 0.5;
+
+      // Apply Tailwind
+      if (isEnemy && field._Tailwind.Item2)
+        speed *= 2;
+      if (!isEnemy && field._Tailwind.Item1)
+        speed *= 2;
+
+      // Extend here for: Chlorophyll, Unburden, Slush Rush, etc.
+      return speed;
     }
   }
 

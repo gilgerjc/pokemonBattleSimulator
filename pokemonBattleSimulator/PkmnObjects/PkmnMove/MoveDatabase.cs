@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace pokemonBattleSimulator.PkmnObjects
+﻿namespace pokemonBattleSimulator.PkmnObjects.PkmnMove
 {
   public static class MoveDatabase
   {
@@ -27,7 +21,7 @@ namespace pokemonBattleSimulator.PkmnObjects
     public static Move GetMoveFromCSV(Moves move)
     {
       if (!moveCsvData.TryGetValue(move, out var parts))
-        throw new Exception($"Move {move} not found in CSV data.");
+        return new Move(Moves.None, 0, 0, MoveType.Status, PkmnType.None, 0);
 
       string name = parts[0].Trim();
       int basePower = int.TryParse(parts[1], out var bp) ? bp : 0;

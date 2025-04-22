@@ -1,4 +1,7 @@
-﻿namespace pokemonBattleSimulator.PkmnObjects
+﻿using pokemonBattleSimulator.PkmnObjects.PkmnItem;
+using pokemonBattleSimulator.PkmnObjects.PkmnMove;
+
+namespace pokemonBattleSimulator.PkmnObjects
 {
   public class Pokemon
   {
@@ -46,7 +49,7 @@
     /// <returns></returns>
     private void GetBaseStatsFromCsv()
     {
-      string filePath = "pokemon_stats.csv"; // Change this to the path of your CSV file
+      string filePath = "C:\\Users\\jgilger\\source\\repos\\pokemonBattleSimulator\\pokemon_stats.csv"; // Change this to the path of your CSV file
       List<int[]> baseStatsList = new List<int[]>();
 
       try
@@ -89,7 +92,7 @@
     /// <returns></returns>
     private (PkmnType, PkmnType) GetTypingFromCsv()
     {
-      string filePath = "path_to_your_gen1_pokemon_typing.csv"; // Replace with the path to your CSV file
+      string filePath = "C:\\Users\\jgilger\\source\\repos\\pokemonBattleSimulator\\pokemon_typing.csv"; // Replace with the path to your CSV file
       Dictionary<string, (PkmnType, PkmnType)> pokemonTypes = new Dictionary<string, (PkmnType, PkmnType)>();
 
       try

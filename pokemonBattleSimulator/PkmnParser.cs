@@ -1,4 +1,8 @@
 ﻿using pokemonBattleSimulator.PkmnObjects;
+using pokemonBattleSimulator.PkmnObjects.PkmnItem;
+using pokemonBattleSimulator.PkmnObjects.PkmnMove;
+using pokemonBattleSimulator.PkmnObjects.Trainer;
+using System.Reflection;
 using System.Text.RegularExpressions;
 
 namespace pokemonBattleSimulator
@@ -100,7 +104,7 @@ namespace pokemonBattleSimulator
 
       int max = 6; if (isPlayer) { max = 100; }
 
-      Pokemon?[] party = new Pokemon[max];
+      Pokemon[] party = new Pokemon[max];
 
       for (int i = 0; i < max; i++)
       {
@@ -110,7 +114,8 @@ namespace pokemonBattleSimulator
         }
         else
         {
-          party[i] = null;
+          Move[] moves = new Move[4]; for (int j = 0; j < moves.Length; j++) { moves[j] = MoveDatabase.GetMoveFromCSV(Moves.None); }
+          party[i] = new Pokemon("None", 0, new Stats(), Nature.Gentle, Ability.Adaptability, Items.None, moves);
         }
       }
 
@@ -127,9 +132,9 @@ namespace pokemonBattleSimulator
 
       // Step 1: Parse field conditions
       int index = 0;
-      while (index < lines.Count && lines[index].StartsWith("="))
+      while (index < lines.Count && lines[index].Contains("="))
       {
-        fieldVariables.Add(lines[index++].Substring(1).ToLower());
+        fieldVariables.Add(lines[index++].ToLower().Trim());
       }
 
       // Step 2: Split enemy and player blocks
@@ -146,10 +151,45 @@ namespace pokemonBattleSimulator
       ITrainer Player = TrainerParse(playerBlock, true);
 
       Field field = new Field(AI, Player);
+      PropertyInfo[] properties = field.GetType().GetProperties();
 
-      foreach (string fieldVariable in fieldVariables)
+      foreach (string fieldVariable in fieldVariables) // set all variables
       {
+        if (fieldVariable.StartsWith("weather="))
+        {
+          string weather = fieldVariable.Replace("weather=", "");
+          field._Weather = Enum.TryParse(weather, true, out Weather parsed) ? parsed : Weather.None;
+        }
+        else
+        {
+          foreach (PropertyInfo property in properties)
+          {
+            string prop = property.Name.Substring(1).ToLower();
 
+            if (property.PropertyType == typeof(bool))
+            {
+              if (fieldVariable.StartsWith(prop)) { property.SetValue(field, true); }
+            }
+            else if (property.PropertyType == typeof(Tuple<bool,bool>))
+            {
+              if (!fieldVariable.StartsWith("="))
+              {
+                if (fieldVariable.Substring(0, fieldVariable.IndexOf('=')).StartsWith(prop))
+                {
+                  property.SetValue(field, (true, false));
+                  if (fieldVariable.Substring(fieldVariable.IndexOf('=')+1).StartsWith(prop)) { property.SetValue(field, (true, true)); }
+                }
+              }
+              else
+              {
+                if (fieldVariable.Substring(1).StartsWith(prop))
+                {
+                  property.SetValue(field, (true, true));
+                } 
+              }
+            }
+          }
+        }
       }
 
       return field;
